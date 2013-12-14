@@ -1,0 +1,45 @@
+{
+	"default" : "standby",
+	"animations" : {
+		"standby" : {
+			"frames" : [
+				{"tile" : 0, "points" : [
+					{"x" : 24,"y" : 24},
+					{"x" : 6,"y" : 12},
+					{"x" : 42,"y" : 12}]}
+			],
+			"speed" : 5,
+			"loop" : false,
+			"loopto" : 0
+		},
+		"turn" : {
+			"frames" : [
+				{"tile" : 0, "points" : [
+					{"x" : 24,"y" : 24},
+					{"x" : 6,"y" : 12},
+					{"x" : 42,"y" : 12}]},
+				{"tile" : 1, "points" : [
+					{"x" : 24,"y" : 24},
+					{"x" : 12,"y" : 12},
+					{"x" : 42,"y" : 12}]},
+				{"tile" : 2, "points" : [
+					{"x" : 24,"y" : 24},
+					{"x" : 20,"y" : 12},
+					{"x" : 40,"y" : 12}]}
+			],
+			"speed" : 15,
+			"loop" : false,
+			"loopto" : 0
+		}
+	},
+	"tilesets" : [
+		{
+			"file" : "vessel.png",
+			"tilewidth" : 48,
+			"tileheight" : 48,
+			"imagewidth" : 48,
+			"imageheight" : 144,
+			"firstgid" : 0
+		}
+	]
+}

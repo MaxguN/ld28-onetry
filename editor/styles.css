@@ -32,24 +32,81 @@ div#slider {
 	border : 1px solid #ff0000;
 }
 
-input#height {
+input,
+button {
 	position : absolute;
-	top : 5px;
+	width : 100px;
 	left : 5px;
 	height : 20px;
-	width : 100px;
+	border : none;
+	text-align: center;
+}
+
+input#height {
+	top : 5px;
+}
+
+input#globalspeed {
+	top : 30px;
+}
+
+input#screenw {
+	top : 55px;
+}
+
+input#screenh {
+	top : 80px;
 }
 
 button#save {
-	position : absolute;
-	top : 30px;
-	left : 5px;
-	width : 50px;
+	top : 105px;
+	width : 47px;
 }
 
 button#reload {
-	position : absolute;
-	top : 30px;
-	left : 60px;
-	width : 50px;
+	top : 105px;
+	left : 57px;
+	width : 48px;
 }
+
+button#private {
+	top : 200px;
+}
+
+button#sergeant {
+	top : 225px;
+}
+
+button#captain {
+	top : 250px;
+}
+
+button#major {
+	top : 275px;
+}
+
+button#add {
+	top : 400px;
+}
+
+button#edit {
+	top : 425px;
+}
+
+button#delete {
+	top : 450px;
+}
+
+button.selected {
+	background-color : #666666;
+	color : #ffffff; 
+}
+
+input#speed {
+	top : 475px;
+}
+
+input#pause {
+	top : 500px;
+}
+

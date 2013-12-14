@@ -1,0 +1,27 @@
+{
+	"default" : "standby",
+	"animations" : {
+		"standby" : {
+			"frames" : [
+				{"tile" : 0, "points" : [
+					{"x" : 50,"y" : 24},
+					{"x" : 12,"y" : 38},
+					{"x" : 50,"y" : 48},
+					{"x" : 88,"y" : 38}]}
+			],
+			"speed" : 5,
+			"loop" : false,
+			"loopto" : 0
+		}
+	},
+	"tilesets" : [
+		{
+			"file" : "sergeant.png",
+			"tilewidth" : 100,
+			"tileheight" : 48,
+			"imagewidth" : 100,
+			"imageheight" : 48,
+			"firstgid" : 0
+		}
+	]
+}
