@@ -1,0 +1,25 @@
+{
+	"default" : "standby",
+	"animations" : {
+		"standby" : {
+			"frames" : [
+				{"tile" : 0, "points" : [
+					{"x" : 16,"y" : 16},
+					{"x" : 16,"y" : 32}]}
+			],
+			"speed" : 5,
+			"loop" : false,
+			"loopto" : 0
+		}
+	},
+	"tilesets" : [
+		{
+			"file" : "private.png",
+			"tilewidth" : 24,
+			"tileheight" : 32,
+			"imagewidth" : 24,
+			"imageheight" : 32,
+			"firstgid" : 0
+		}
+	]
+}

@@ -1,0 +1,55 @@
+* {
+	margin : 0px;
+	padding : 0px;
+}
+
+body {
+	background-color : #000000;
+}
+
+canvas#editor {
+	position : absolute;
+	top : 50%;
+	left : 50%;
+	background-color : #ffffff;
+}
+
+div#map {
+	position : absolute;
+	right : 5px;
+	top : 5px;
+	bottom : 5px;
+	width : 75px;
+	background-color : #ffffff;
+}
+
+div#slider {
+	position : absolute;
+	bottom : 0px;
+	left : 0px;
+	right : 0px;
+	height : 100px;
+	border : 1px solid #ff0000;
+}
+
+input#height {
+	position : absolute;
+	top : 5px;
+	left : 5px;
+	height : 20px;
+	width : 100px;
+}
+
+button#save {
+	position : absolute;
+	top : 30px;
+	left : 5px;
+	width : 50px;
+}
+
+button#reload {
+	position : absolute;
+	top : 30px;
+	left : 60px;
+	width : 50px;
+}
