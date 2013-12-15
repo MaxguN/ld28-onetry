@@ -9,6 +9,7 @@ function Ennemy(data, level) {
 	this.type = data.type;
 	this.hitpoints = 1;
 	this.shootspeed = 1; // shoot.s^-1
+	this.score = 0;
 	this.shooting = false;
 
 	this.pattern = data.pattern;
@@ -69,6 +70,12 @@ Ennemy.prototype.init = function(data) {
 	});
 };
 
+Ennemy.prototype.setParams = function(data) {
+	this.hitpoints = data.hitpoints;
+	this.shootspeed = data.shootspeed;
+	this.score = data.score;
+};
+
 Ennemy.prototype.hit = function() {
 	this.hitpoints -= 1;
 
@@ -82,6 +89,7 @@ Ennemy.prototype.kill = function() {
 		this.dead = true;
 		this.shooting = false;
 
+		game.hud.addScore(this.score);
 		game.level.removeEnnemy(this);
 	}
 };
@@ -98,11 +106,6 @@ Ennemy.prototype.collidesSquare = function(x, y, side) {
 
 		return x + side >= ex && x <= ex + width && y + side >= ey && y <= ey + height;
 	}
-};
-
-Ennemy.prototype.setParams = function(data) {
-	this.hitpoints = data.hitpoints;
-	this.shootspeed = data.shootspeed;
 };
 
 Ennemy.prototype.tick = function(length) {

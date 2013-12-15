@@ -1,4 +1,5 @@
 {
 	"hitpoints" : 10,
-	"shootspeed" : 3
+	"shootspeed" : 0.75,
+	"score" : 300
 }

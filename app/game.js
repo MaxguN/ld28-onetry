@@ -1,7 +1,7 @@
 function Game() {
 	var self = this;
 
-	this.ui = new Interface(this);
+	this.hud = new Interface(this);
 	this.level = new Level(this);
 
 	this.offset = {
@@ -30,12 +30,12 @@ Game.prototype.tick = function(length) {
 	}
 
 	this.level.tick(length);
-	this.ui.tick(length);
+	this.hud.tick(length);
 
 	this.draw(this.offset);
 };
 
 Game.prototype.draw = function(offset) {
 	this.level.draw(offset);
-	this.ui.draw(offset);
+	this.hud.draw(offset);
 };

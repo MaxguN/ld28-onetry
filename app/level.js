@@ -41,6 +41,7 @@ Level.prototype.load = function(data) {
 	this.vessel = new Vessel(x, y);
 
 	this.index = 0;
+	this.nextScreen();
 };
 
 Level.prototype.removeEnnemy = function(e) {
