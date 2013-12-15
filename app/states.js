@@ -1,4 +1,6 @@
 var states = {
 	standby : 'standby',
-	turn : 'turn'
+	turn : 'turn',
+	title : 'title',
+	end : 'end'
 }

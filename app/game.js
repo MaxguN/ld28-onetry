@@ -16,9 +16,14 @@ Game.prototype.init = function(data) {
 	this.level.load(data);
 };
 
+Game.prototype.startlevel = function() {
+	
+};
+
 Game.prototype.over = function() {
+	menu.end(this.hud.score);
+	current = menu;
 	game = new Game();
-	current = game;
 };
 
 Game.prototype.tick = function(length) {

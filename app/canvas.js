@@ -2,7 +2,7 @@ var canvas = document.getElementById('game');
 var context = canvas.getContext('2d');
 
 canvas.width = 800;
-canvas.height = 900;
+canvas.height = 800;
 
 canvas.style.width = canvas.width + 'px';
 canvas.style.height = canvas.height + 'px';
