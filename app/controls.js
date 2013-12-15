@@ -4,6 +4,7 @@ var keys = {
 	up : 38,
 	right : 39,
 	down : 40,
+	delete : 46,
 	c : 67,
 	r : 82,
 	x : 88
@@ -46,8 +47,29 @@ var mouse = (function () {
 	}
 
 	function onmousemove(event) {
+		var element = event.srcElement;
+
 		mouse.x = event.layerX;
 		mouse.y = event.layerY;
+
+		while (element) {
+			mouse.x += element.offsetLeft;
+			mouse.y += element.offsetTop;
+
+			element = element.offsetParent;
+		}
+
+		mouse.canvas.x = mouse.x;
+		mouse.canvas.y = mouse.y;
+
+		element = canvas;
+
+		while (element) {
+			mouse.canvas.x -= element.offsetLeft;
+			mouse.canvas.y -= element.offsetTop;
+
+			element = element.offsetParent;
+		}
 
 		listeners.mousemove.forEach(function (listener) {
 			listener(event);
@@ -70,6 +92,10 @@ var mouse = (function () {
 	return {
 		x : 0,
 		y : 0,
+		canvas : {
+			x : 0,
+			y : 0
+		},
 		left : false,
 		middle : false,
 		right : false,

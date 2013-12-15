@@ -1,8 +1,12 @@
-function Vessel(x, y) {
+function Ennemy(data) {
 	var self = this;
 
-	this.x = x;
-	this.y = y;
+	this.x = data.position.x;
+	this.y = data.position.y;
+
+	this.type = data.type;
+
+	this.pattern = data.pattern;
 
 	this.animations = {};
 	this.currentanimation = '';
@@ -17,10 +21,10 @@ function Vessel(x, y) {
 
 	this.loaded = false;
 
-	load.json('animations/vessel.json', function (data) {self.init(data);});
+	load.json('animations/' + this.type + '.json', function (data) {self.init(data);});
 }
 
-Vessel.prototype.init = function(data) {
+Ennemy.prototype.init = function(data) {
 	var self = this;
 
 	this.animations = data.animations;
@@ -56,13 +60,11 @@ Vessel.prototype.init = function(data) {
 	});
 };
 
-Vessel.prototype.tick = function(length) {
-	if (keydown[keys.right]) {
-		
-	}
+Ennemy.prototype.tick = function(length) {
+
 };
 
-Vessel.prototype.draw = function() {
+Ennemy.prototype.draw = function(offset) {
 	if (this.loaded) {
 		var frame = this.currentanimation.frames[this.currentframe];
 		var tile = this.tiles[frame.tile];
@@ -73,7 +75,7 @@ Vessel.prototype.draw = function() {
 		var y = - frame.points[0].y;
 
 		context.save();
-		context.translate(this.x, this.y);
+		context.translate(this.x + offset.x, this.y + offset.y);
 
 		if (this.mirror) {
 			context.scale(-1, 1);
