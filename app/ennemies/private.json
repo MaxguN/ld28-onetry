@@ -1,3 +1,4 @@
 {
-	"hitpoints" : 1
+	"hitpoints" : 1,
+	"shootspeed" : 5
 }

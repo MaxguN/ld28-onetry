@@ -4,6 +4,13 @@ function Vessel(x, y) {
 	this.x = x;
 	this.y = y;
 
+	this.tilewidth = 0;
+	this.tileheight = 0;
+
+	this.speed = 600; //px.s^-1
+	this.shootspeed = 10; //shoot.s^-1
+	this.bullets = [];
+
 	this.animations = {};
 	this.currentanimation = '';
 	this.currentframe = 0;
@@ -14,6 +21,10 @@ function Vessel(x, y) {
 	this.framelength = 0;
 	this.tilesets = [];
 	this.tiles = {};
+
+	this.lastshot = 0;
+
+	this.state = states.standby;
 
 	this.loaded = false;
 
@@ -51,14 +62,109 @@ Vessel.prototype.init = function(data) {
 
 	}, this);
 
+	var frame = this.currentanimation.frames[this.currentframe];
+	var tile = this.tiles[frame.tile];
+	var tileset = this.tilesets[tile.set];
+	this.tilewidth = tileset.width;
+	this.tileheight = tileset.height;
+
 	load.ready(function () {
 		self.loaded = true;
 	});
 };
 
+Vessel.prototype.switchtoanim = function(state, mirror) {
+	var canswitch = false;
+
+	if (state === states.turn) {
+		canswitch = this.state === states.standby;
+	} else if (state === states.standby) {
+		canswitch = true;
+	}
+
+	if (canswitch) {
+		this.state = state;
+		this.currentanimation = this.animations[state];
+		this.currentframe = 0;
+		this.animationtimer = 0;
+		this.framelength = 1000 / this.currentanimation.speed;
+		this.animationrunning = true;
+		this.mirror = !(!mirror);
+	}
+};
+
 Vessel.prototype.tick = function(length) {
-	if (keydown[keys.right]) {
-		
+	if (this.loaded) {
+		var frame = this.currentanimation.frames[this.currentframe];
+		var tile = this.tiles[frame.tile];
+		var x = this.x - this.tilewidth / 2;
+		var y = this.y - this.tileheight / 2;
+		var dx = 0;
+		var dy = 0;
+		var width = 0;
+		var height = 0;
+		var collision = {};
+		this.animationtimer += Math.min(1000/60, length);
+
+		this.bullets.forEach(function (bullet) {
+			bullet.tick(length);
+		}, this);
+
+		if (keydown[keys.space]) {
+			var now = new Date().getTime();
+			if (now - this.lastshot >= 1000 / this.shootspeed) {
+				for (var i = 1; i < frame.points.length; i += 1) {
+					var point = frame.points[i];
+					var x = this.x - frame.points[0].x + point.x;
+					var y = this.y - frame.points[0].y + point.y;
+
+					this.bullets.push(new Bullet(x, y, 12));
+				}
+
+				this.lastshot = now;
+			}
+		}
+
+		if (keydown[keys.right]) {
+			dx += length * this.speed / 1000;
+			this.switchtoanim(states.turn);
+		}
+
+		if (keydown[keys.left]) {
+			dx += - length * this.speed / 1000;
+			this.switchtoanim(states.turn, true);
+		}
+
+		if (keydown[keys.up]) {
+			dy += - length * this.speed / 1000;
+		}
+
+		if (keydown[keys.down]) {
+			dy += length * this.speed / 1000;
+		}
+
+		if (this.animationrunning) {
+			if (this.animationtimer >= this.framelength) {
+				this.animationtimer -= 1000/60;
+				this.currentframe += 1;
+
+				if (this.currentframe >= this.currentanimation.frames.length) {
+					if (this.currentanimation.loop) {
+						this.currentframe = this.currentanimation.loopto;
+					} else {
+						this.currentframe -= 1;
+						this.animationrunning = false;
+					}
+				}
+			}
+		}
+
+		this.x += dx;
+		this.y += dy;
+
+		if (dx === 0) {
+			this.switchtoanim(states.standby);
+		}
 	}
 };
 
