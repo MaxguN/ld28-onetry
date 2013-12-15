@@ -4,8 +4,8 @@
 		"standby" : {
 			"frames" : [
 				{"tile" : 0, "points" : [
-					{"x" : 16,"y" : 16},
-					{"x" : 16,"y" : 32}]}
+					{"x" : 12,"y" : 16},
+					{"x" : 12,"y" : 32}]}
 			],
 			"speed" : 5,
 			"loop" : false,

@@ -20,6 +20,7 @@ function Ennemy(data) {
 	this.tiles = {};
 
 	this.loaded = false;
+	this.highlight = false;
 
 	load.json('animations/' + this.type + '.json', function (data) {self.init(data);});
 }
@@ -60,8 +61,33 @@ Ennemy.prototype.init = function(data) {
 	});
 };
 
+Ennemy.prototype.contains = function(coords) {
+	var frame = this.currentanimation.frames[this.currentframe];
+	var tile = this.tiles[frame.tile];
+	var tileset = this.tilesets[tile.set];
+	var width = tileset.width;
+	var height = tileset.height;
+	var x = - frame.points[0].x;
+	var y = - frame.points[0].y;
+
+	var left = this.x + x;
+	var right = this.x + x + width;
+	var top = (editor.level.index + 1) * editor.level.screen.height + this.y + y;
+	var bottom = (editor.level.index + 1) * editor.level.screen.height + this.y + y + height;
+
+	return (coords.x >= left && coords.x <= right && coords.y >=  top && coords.y <= bottom);
+};
+
 Ennemy.prototype.tick = function(length) {
-	
+	if (this.highlight) {
+		this.highlight = false;
+	}
+
+	if (keydown[keys.escape]) {
+		if (this.selected) {
+			delete this.selected;
+		}
+	}
 };
 
 Ennemy.prototype.draw = function(offset) {
@@ -82,6 +108,11 @@ Ennemy.prototype.draw = function(offset) {
 		}
 
 		context.drawImage(tileset.image, tile.x, tile.y, width, height, x, y, width, height);
+
+		if (this.highlight || this.selected) {
+			context.strokeStyle = "#aa0000";
+			context.strokeRect(x, y, width, height);
+		}
 
 		context.restore();
 	}

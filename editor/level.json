@@ -1,1 +1,1 @@
-{"height":16200,"speed":20,"screen":{"width":800,"height":900},"ennemies":[[]]}
+{"height":16200,"speed":20,"screen":{"width":800,"height":900},"ennemies":[[],[],[{"type":"major","position":{"x":409,"y":-2592},"pattern":[]},{"type":"major","position":{"x":651,"y":-2419},"pattern":[]},{"type":"major","position":{"x":167,"y":-2423},"pattern":[]},{"type":"private","position":{"x":411,"y":-2453},"pattern":[]}]]}

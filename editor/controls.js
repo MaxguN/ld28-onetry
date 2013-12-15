@@ -4,6 +4,7 @@ var keys = {
 	up : 38,
 	right : 39,
 	down : 40,
+	delete : 46,
 	c : 67,
 	r : 82,
 	x : 88

@@ -50,6 +50,7 @@ Level.prototype.setScreen = function(screen) {
 
 	if (this.edit === undefined) {
 		this.edit = [];
+		this.ennemies[screen] = this.edit;
 	}
 };
 
@@ -85,33 +86,41 @@ Level.prototype.tick = function(length) {
 				current = next;
 			}, this);
 
+			display.sprite.selected = ennemy.selected;
+
 			this.display.push(display);
 		}, this);
 
 		this.update = false;
 	}
+
+	this.display.forEach(function (ennemy) {
+		ennemy.sprite.tick(length);
+	})
 };
 
 Level.prototype.draw = function(offset) {
-	this.display.forEach(function (ennemy) {
-		context.strokeStyle = '#cccccc';
+	this.display.forEach(function (ennemy, index) {
+		if (this.edit[index].selected) {
+			context.strokeStyle = '#cccccc';
 
-		context.beginPath();
-		ennemy.path.forEach(function (line) {
-			context.moveTo(line.src.x, line.src.y);
-			context.lineTo(line.dst.x, line.dst.y);
-		}, this);
-		context.closePath()
-		context.stroke();
-
-		context.fillStyle = '#aa0000';
-
-		ennemy.via.forEach(function (point) {
 			context.beginPath();
-			context.arc(point.center.x, point.center.y, point.radius, 0, Math.PI * 2);
-			context.closePath();
-			context.fill();
-		}, this);
+			ennemy.path.forEach(function (line) {
+				context.moveTo(line.src.x, line.src.y);
+				context.lineTo(line.dst.x, line.dst.y);
+			}, this);
+			context.closePath()
+			context.stroke();
+
+			context.fillStyle = '#aa0000';
+
+			ennemy.via.forEach(function (point) {
+				context.beginPath();
+				context.arc(point.center.x, point.center.y, point.radius, 0, Math.PI * 2);
+				context.closePath();
+				context.fill();
+			}, this);
+		}
 
 		ennemy.sprite.draw(offset);
 	}, this);

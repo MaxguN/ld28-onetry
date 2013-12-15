@@ -44,8 +44,8 @@ Editor.prototype.selectToAdd = function(type) {
 };
 
 Editor.prototype.tick = function(length) {
-	this.sandbox.tick(length);
 	this.level.tick(length);
+	this.sandbox.tick(length);
 
 	this.draw(this.offset);
 };
