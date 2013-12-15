@@ -43,6 +43,19 @@ Level.prototype.load = function(data) {
 	this.index = 0;
 };
 
+Level.prototype.removeEnnemy = function(e) {
+	this.ennemies.some(function (ennemy, index) {
+		if (e === ennemy) {
+			this.ennemies.splice(index, 1);
+			return true;
+		}
+	}, this);
+};
+
+Level.prototype.removeVessel = function() {
+	delete this.vessel;
+};
+
 Level.prototype.get = function() {
 	this.level = {
 		height : this.height,
@@ -61,9 +74,31 @@ Level.prototype.nextScreen = function() {
 };
 
 Level.prototype.tick = function(length) {
-	this.bullets.forEach(function (bullet) {
+	this.bullets.forEach(function (bullet, index) {
 		bullet.tick(length);
+
+		if (this.vessel) {
+			if (this.vessel.collidesCircle(bullet.x, bullet.y, bullet.radius)) {
+				this.vessel.hit();
+				bullet.destroy();
+				this.bullets.splice(index, 1);
+			}
+		}
 	}, this);
+
+	if (this.vessel) {
+		this.vessel.bullets.forEach(function (bullet, index) {
+			bullet.tick(length);
+
+			this.ennemies.forEach(function (ennemy) {
+				if (ennemy.collidesSquare(bullet.x, bullet.y, bullet.radius)) {
+					ennemy.hit();
+					bullet.destroy();
+					this.vessel.bullets.splice(index, 1);
+				}
+			}, this);
+		}, this);
+	}
 
 	this.ennemies.forEach(function (ennemy) {
 		if (!ennemy.shooting && this.game.offset.y + ennemy.y >= 0) {

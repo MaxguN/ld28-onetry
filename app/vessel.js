@@ -27,6 +27,7 @@ function Vessel(x, y) {
 	this.state = states.standby;
 
 	this.loaded = false;
+	this.dead = false;
 
 	load.json('animations/vessel.json', function (data) {self.init(data);});
 }
@@ -73,6 +74,48 @@ Vessel.prototype.init = function(data) {
 	});
 };
 
+Vessel.prototype.hit = function() {
+	this.kill();
+};
+
+Vessel.prototype.kill = function() {
+	if (!this.dead) {
+		this.dead = true;
+		game.level.removeVessel();
+		game.over();
+	}
+};
+
+Vessel.prototype.collidesCircle = function(x, y, radius) {
+	var width = this.tilewidth;
+	var height = this.tileheight;
+	var vx = this.x - width / 2;
+	var vy = this.y - height / 2;
+
+	var point = {
+		x : 0,
+		y : 0
+	}
+
+	if (x < vx) {
+		point.x = vx;
+	} else if (x > vx + width) {
+		point.x = vx + width;
+	} else {
+		point.x = x;
+	}
+
+	if (y < vy) {
+		point.y = vy;
+	} else if (y > vy + height) {
+		point.y = vy + height;
+	} else {
+		point.y = y;
+	}
+
+	return (Math.sqrt(Math.pow(x - point.x, 2) + Math.pow(y - point.y, 2)) <= radius);
+};
+
 Vessel.prototype.switchtoanim = function(state, mirror) {
 	var canswitch = false;
 
@@ -94,21 +137,17 @@ Vessel.prototype.switchtoanim = function(state, mirror) {
 };
 
 Vessel.prototype.tick = function(length) {
-	if (this.loaded) {
+	if (this.loaded && !this.dead) {
 		var frame = this.currentanimation.frames[this.currentframe];
 		var tile = this.tiles[frame.tile];
 		var x = this.x - this.tilewidth / 2;
 		var y = this.y - this.tileheight / 2;
 		var dx = 0;
 		var dy = 0;
-		var width = 0;
-		var height = 0;
+		var width = this.tilewidth;
+		var height = this.tileheight;
 		var collision = {};
 		this.animationtimer += Math.min(1000/60, length);
-
-		this.bullets.forEach(function (bullet) {
-			bullet.tick(length);
-		}, this);
 
 		if (keydown[keys.space]) {
 			var now = new Date().getTime();
@@ -118,7 +157,7 @@ Vessel.prototype.tick = function(length) {
 					var x = this.x - frame.points[0].x + point.x;
 					var y = this.y - frame.points[0].y + point.y;
 
-					this.bullets.push(new Bullet(x, y, 12));
+					this.bullets.push(new Bullet(x, y, 12, this.bullets));
 				}
 
 				this.lastshot = now;
@@ -162,6 +201,27 @@ Vessel.prototype.tick = function(length) {
 		this.x += dx;
 		this.y += dy;
 
+		var maxwidth = game.level.screen.width;
+		var maxheight = game.level.screen.height;
+		var halfwidth = width / 2;
+		var halfheight = height / 2;
+
+		if (this.x - halfwidth < 0) {
+			this.x = halfwidth;
+		}
+
+		if (this.x + halfwidth > maxwidth) {
+			this.x = maxwidth - halfwidth;
+		}
+
+		if (this.y - halfheight < 0) {
+			this.y = halfheight;
+		}
+
+		if (this.y + halfheight > maxheight) {
+			this.y = maxheight - halfheight;
+		}
+
 		if (dx === 0) {
 			this.switchtoanim(states.standby);
 		}
@@ -169,7 +229,7 @@ Vessel.prototype.tick = function(length) {
 };
 
 Vessel.prototype.draw = function() {
-	if (this.loaded) {
+	if (this.loaded && !this.dead) {
 		var frame = this.currentanimation.frames[this.currentframe];
 		var tile = this.tiles[frame.tile];
 		var tileset = this.tilesets[tile.set];

@@ -1,5 +1,7 @@
-function Bullet(x, y, radius, foe) {
+function Bullet(x, y, radius, container, foe) {
 	var self = this;
+
+	this.container = container;
 
 	this.x = x;
 	this.y = y;
@@ -12,6 +14,7 @@ function Bullet(x, y, radius, foe) {
 	this.speed = 600; //px.s^-1
 
 	this.loaded = false;
+	this.destroyed = false;
 
 	var filename = 'bullet';
 	if (this.foe) {
@@ -27,12 +30,40 @@ Bullet.prototype.init = function(data) {
 	this.image = data;
 };
 
+Bullet.prototype.destroy = function() {
+	this.destroyed = true;
+};
+
 Bullet.prototype.tick = function(length) {
 	this.y += this.side * length * this.speed / 1000;
+
+	var maxwidth = game.level.screen.width;
+	var maxheight = game.level.screen.height;
+	var halfwidth = this.radius / 2;
+	var halfheight = this.radius / 2;
+
+	if (this.x - halfwidth < 0) {
+		this.x = halfwidth;
+	}
+
+	if (this.x + halfwidth > maxwidth) {
+		this.x = maxwidth - halfwidth;
+	}
+
+	if (this.y - halfheight < 0 ||
+			this.y + halfheight > maxheight) {
+		this.destroy();
+		this.container.some(function (bullet, index) {
+			if (bullet === this) {
+				this.container.splice(index, 1);
+				return true;
+			}
+		}, this);
+	}
 };
 
 Bullet.prototype.draw = function() {
-	if (this.loaded) {
+	if (this.loaded && !this.destroyed) {
 		var x = - this.radius / 2;
 		var y = - this.radius / 2;
 		

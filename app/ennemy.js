@@ -27,6 +27,7 @@ function Ennemy(data, level) {
 	this.lastshot = 0;
 
 	this.loaded = false;
+	this.dead = false;
 
 	load.json('animations/' + this.type + '.json', function (data) {self.init(data);});
 	load.json('ennemies/' + this.type + '.json', function (data) {self.setParams(data);});
@@ -68,6 +69,37 @@ Ennemy.prototype.init = function(data) {
 	});
 };
 
+Ennemy.prototype.hit = function() {
+	this.hitpoints -= 1;
+
+	if (this.hitpoints <= 0) {
+		this.kill();
+	}
+};
+
+Ennemy.prototype.kill = function() {
+	if (!this.dead) {
+		this.dead = true;
+		this.shooting = false;
+
+		game.level.removeEnnemy(this);
+	}
+};
+
+Ennemy.prototype.collidesSquare = function(x, y, side) {
+	if (this.loaded) {
+		var frame = this.currentanimation.frames[this.currentframe];
+		var tile = this.tiles[frame.tile];
+		var tileset = this.tilesets[tile.set];
+		var width = tileset.width;
+		var height = tileset.height;
+		var ex = game.offset.x + this.x - frame.points[0].x;
+		var ey = game.offset.y + this.y - frame.points[0].y;
+
+		return x + side >= ex && x <= ex + width && y + side >= ey && y <= ey + height;
+	}
+};
+
 Ennemy.prototype.setParams = function(data) {
 	this.hitpoints = data.hitpoints;
 	this.shootspeed = data.shootspeed;
@@ -84,7 +116,7 @@ Ennemy.prototype.tick = function(length) {
 				var x = game.offset.x + this.x - frame.points[0].x + point.x;
 				var y = game.offset.y + this.y - frame.points[0].y + point.y;
 
-				this.level.bullets.push(new Bullet(x, y, point.r, true));
+				this.level.bullets.push(new Bullet(x, y, point.r, this.level.bullets, true));
 			}
 
 			this.lastshot = now;
@@ -93,7 +125,7 @@ Ennemy.prototype.tick = function(length) {
 };
 
 Ennemy.prototype.draw = function(offset) {
-	if (this.loaded) {
+	if (this.loaded && !this.dead) {
 		var frame = this.currentanimation.frames[this.currentframe];
 		var tile = this.tiles[frame.tile];
 		var tileset = this.tilesets[tile.set];

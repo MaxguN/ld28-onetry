@@ -16,6 +16,11 @@ Game.prototype.init = function(data) {
 	this.level.load(data);
 };
 
+Game.prototype.over = function() {
+	game = new Game();
+	current = game;
+};
+
 Game.prototype.tick = function(length) {
 	this.offset.y += length * this.level.speed / 1000;
 
