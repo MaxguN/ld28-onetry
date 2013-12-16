@@ -34,7 +34,7 @@ www/onetry.js : www/onetry.global.js
 	mkdir www/images
 	cp app/animations/* www/animations/
 	cp app/audio/* www/audio/
-	cp app/ennemy/* www/ennemies/
+	cp app/ennemies/* www/ennemies/
 	cp app/images/* www/images/
 	cp app/styles.css www/
 

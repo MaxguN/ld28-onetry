@@ -3,4 +3,4 @@ var states = {
 	turn : 'turn',
 	title : 'title',
 	end : 'end'
-}
+};
