@@ -1,0 +1,8 @@
+syntax : glob
+www/onetry.*
+*.capx.backup*
+www/animations/*
+www/audio/*
+www/ennemies/*
+www/images/*
+www/styles.css
