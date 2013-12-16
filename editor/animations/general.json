@@ -1,0 +1,32 @@
+{
+	"default" : "standby",
+	"animations" : {
+		"standby" : {
+			"frames" : [
+				{"tile" : 0, "points" : [
+					{"x" : 359,"y" : 166},
+					{"x" : 24,"y" : 76},
+					{"x" : 107,"y" : 172},
+					{"x" : 245,"y" : 331},
+					{"x" : 311,"y" : 331},
+					{"x" : 407,"y" : 331},
+					{"x" : 473,"y" : 331},
+					{"x" : 611,"y" : 172},
+					{"x" : 694,"y" : 76}]}
+			],
+			"speed" : 5,
+			"loop" : false,
+			"loopto" : 0
+		}
+	},
+	"tilesets" : [
+		{
+			"file" : "general.png",
+			"tilewidth" : 718,
+			"tileheight" : 332,
+			"imagewidth" : 718,
+			"imageheight" : 332,
+			"firstgid" : 0
+		}
+	]
+}

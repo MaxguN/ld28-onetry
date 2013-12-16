@@ -67,7 +67,6 @@ var load = (function() {
 	}
 
 	function loadaudio(uri, callback) {
-				console.log('loading')
 		if (loaded[uri] === undefined) {
 			loading.push(uri);
 			var audio = new Audio();
@@ -75,14 +74,11 @@ var load = (function() {
 			audio.addEventListener('canplay', function () {
 				setloaded(uri, audio);
 				call(callback, audio);
-				console.log('loaded')
 			});
 			audio.src = uri;
 		} else {
-				console.log('loaded')
 			call(callback, loaded[uri]);
 		}
-			console.log(loading)
 	}
 
 	function whenready(callback) {

@@ -69,9 +69,15 @@ Level.prototype.get = function() {
 };
 
 Level.prototype.nextScreen = function() {
-	this.screens[this.index].forEach(function (ennemy) {
-		this.ennemies.push(new Ennemy(ennemy, this));
-	}, this);
+	if ((this.index - 2) * this.screen.height >= this.height) {
+		game.over();
+	} else {
+		if (this.screens[this.index]) {
+			this.screens[this.index].forEach(function (ennemy) {
+				this.ennemies.push(new Ennemy(ennemy, this));
+			}, this);
+		}
+	}
 };
 
 Level.prototype.tick = function(length) {

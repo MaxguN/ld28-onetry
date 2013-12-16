@@ -16,6 +16,7 @@ function Interface(editor) {
 	this.button_sergeant = document.getElementById('sergeant');
 	this.button_captain = document.getElementById('captain');
 	this.button_major = document.getElementById('major');
+	this.button_general = document.getElementById('general');
 
 	this.button_add = document.getElementById('add');
 	this.button_edit = document.getElementById('edit');
@@ -49,6 +50,7 @@ Interface.prototype.init = function() {
 	this.button_sergeant.addEventListener('click', function (event) {self.selectEnnemy(event);});
 	this.button_captain.addEventListener('click', function (event) {self.selectEnnemy(event);});
 	this.button_major.addEventListener('click', function (event) {self.selectEnnemy(event);});
+	this.button_general.addEventListener('click', function (event) {self.selectEnnemy(event);});
 };
 
 Interface.prototype.save = function() {
@@ -159,6 +161,7 @@ Interface.prototype.selectEnnemy = function(event) {
 		this.button_sergeant.className = '';
 		this.button_captain.className = '';
 		this.button_major.className = '';
+		this.button_general.className = '';
 
 		element.className = 'selected';
 

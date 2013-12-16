@@ -14,7 +14,6 @@ function Menu() {
 
 Menu.prototype.init = function(image) {
 	this.title = image;
-	this.bind();
 
 	this.loaded = true;
 };
@@ -28,29 +27,13 @@ Menu.prototype.end = function(score) {
 	this.score = Math.floor(score);
 };
 
-Menu.prototype.bind = function() {
-	var self = this;
-
-	mouse.on('mousedown', function (event) {
-		if (mouse.left && self.over) {
-			self.over = false;
-			current = game;
-			game.startlevel();
-		}
-	});
-};
-
 Menu.prototype.tick = function(length) {
-	if (this.state === states.title) {
-		if (mouse.canvas.x >= 0 && mouse.canvas.x <= canvas.width &&
-				mouse.canvas.y >= 0 && mouse.canvas.y <= canvas.height) {
-			this.over = true;
-			canvas.style.cursor = 'pointer';
-		} else {
-			this.over = false;
-			canvas.style.cursor = 'auto';
-		}
+	if (keydown[keys.m]) {
+		sound = !sound;
+		keydown[keys.m] = false;
+	}
 
+	if (this.state === states.title) {
 		if (keydown[keys.enter]) {
 			self.over = false;
 			current = game;

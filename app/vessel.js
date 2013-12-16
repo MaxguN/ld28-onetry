@@ -22,18 +22,25 @@ function Vessel(x, y) {
 	this.tilesets = [];
 	this.tiles = {};
 
+	this.sfx = new Audio();
+
 	this.lastshot = 0;
 
 	this.state = states.standby;
 
 	this.loaded = false;
 	this.dead = false;
+	this.god = false;
 
 	load.json('animations/vessel.json', function (data) {self.init(data);});
 }
 
 Vessel.prototype.init = function(data) {
 	var self = this;
+
+	audio.sfx('audio/shoot.wav', function (sfx) {
+		self.sfx = sfx;
+	});
 
 	this.animations = data.animations;
 	this.currentanimation = this.animations[data.default];
@@ -75,7 +82,11 @@ Vessel.prototype.init = function(data) {
 };
 
 Vessel.prototype.hit = function() {
-	this.kill();
+	if (this.god) {
+		console.log('Hit !');
+	} else {
+		this.kill();
+	}
 };
 
 Vessel.prototype.kill = function() {
@@ -87,8 +98,8 @@ Vessel.prototype.kill = function() {
 };
 
 Vessel.prototype.collidesCircle = function(x, y, radius) {
-	var width = this.tilewidth;
-	var height = this.tileheight;
+	var width = this.tilewidth / 2;
+	var height = this.tileheight / 2;
 	var vx = this.x - width / 2;
 	var vy = this.y - height / 2;
 
@@ -158,6 +169,10 @@ Vessel.prototype.tick = function(length) {
 					var y = this.y - frame.points[0].y + point.y;
 
 					this.bullets.push(new Bullet(x, y, 12, this.bullets));
+
+					if (sound) {
+						this.sfx.play();
+					}
 				}
 
 				this.lastshot = now;
@@ -221,6 +236,13 @@ Vessel.prototype.tick = function(length) {
 		if (this.y + halfheight > maxheight) {
 			this.y = maxheight - halfheight;
 		}
+
+		game.level.ennemies.some(function (ennemy) {
+			if (ennemy.collidesSquare(this.x, this.y, width / 2)) {
+				this.hit();
+				return true;
+			}
+		}, this);
 
 		if (dx === 0) {
 			this.switchtoanim(states.standby);

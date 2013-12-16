@@ -14,6 +14,8 @@ var menu = new Menu()
 var game = new Game();
 var current = menu;
 
+var sound = true;
+
 function tick() {
 	requestAnimFrame(tick);
 

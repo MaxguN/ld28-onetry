@@ -37,21 +37,7 @@ Bullet.prototype.destroy = function() {
 Bullet.prototype.tick = function(length) {
 	this.y += this.side * length * this.speed / 1000;
 
-	var maxwidth = game.level.screen.width;
-	var maxheight = game.level.screen.height;
-	var halfwidth = this.radius / 2;
-	var halfheight = this.radius / 2;
-
-	if (this.x - halfwidth < 0) {
-		this.x = halfwidth;
-	}
-
-	if (this.x + halfwidth > maxwidth) {
-		this.x = maxwidth - halfwidth;
-	}
-
-	if (this.y - halfheight < 0 ||
-			this.y + halfheight > maxheight) {
+	if (this.y < 0 || this.y > game.level.screen.height) {
 		this.destroy();
 		this.container.some(function (bullet, index) {
 			if (bullet === this) {
@@ -59,6 +45,7 @@ Bullet.prototype.tick = function(length) {
 				return true;
 			}
 		}, this);
+
 	}
 };
 

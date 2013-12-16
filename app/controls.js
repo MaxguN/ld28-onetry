@@ -8,6 +8,7 @@ var keys = {
 	down : 40,
 	delete : 46,
 	c : 67,
+	m : 77,
 	r : 82,
 	x : 88
 }

@@ -27,6 +27,11 @@ Game.prototype.over = function() {
 };
 
 Game.prototype.tick = function(length) {
+	if (keydown[keys.m]) {
+		sound = !sound;
+		keydown[keys.m] = false;
+	}
+
 	this.offset.y += length * this.level.speed / 1000;
 
 	if (this.level.index * this.level.screen.height < this.offset.y) {
@@ -36,6 +41,10 @@ Game.prototype.tick = function(length) {
 
 	this.level.tick(length);
 	this.hud.tick(length);
+
+	if (keydown[keys.escape]) {
+		this.over();
+	}
 
 	this.draw(this.offset);
 };

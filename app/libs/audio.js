@@ -1,7 +1,7 @@
 var audio = (function () {
 	function loadsfx(uri, callback) {
 		load.audio(uri, function (sfx) {
-			sfx.volume = 0.4;
+			sfx.volume = 0.2;
 			callback(sfx);
 		});
 	}

@@ -25,6 +25,8 @@ function Ennemy(data, level) {
 	this.tilesets = [];
 	this.tiles = {};
 
+	this.sfx = new Audio();
+
 	this.lastshot = 0;
 
 	this.loaded = false;
@@ -36,6 +38,10 @@ function Ennemy(data, level) {
 
 Ennemy.prototype.init = function(data) {
 	var self = this;
+
+	audio.sfx('audio/explosion.wav', function (sfx) {
+		self.sfx = sfx;
+	});
 
 	this.animations = data.animations;
 	this.currentanimation = this.animations[data.default];
@@ -86,6 +92,10 @@ Ennemy.prototype.hit = function() {
 
 Ennemy.prototype.kill = function() {
 	if (!this.dead) {
+		if (sound) {
+			this.sfx.play();
+		}
+
 		this.dead = true;
 		this.shooting = false;
 
